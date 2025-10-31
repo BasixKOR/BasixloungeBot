@@ -3,5 +3,8 @@
   "packageManager": "yarn@4.10.3",
   "dependencies": {
     "discord.js": "^14.24.2"
+  },
+  "devDependencies": {
+    "lefthook": "^2.0.2"
   }
 }
