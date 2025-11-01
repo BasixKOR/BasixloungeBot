@@ -1,4 +1,7 @@
 import { Client, Events, GatewayIntentBits } from "discord.js";
+import { TOKEN } from "./env.js";
+
+import "./commands.js"
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -14,4 +17,4 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 });
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(TOKEN);
