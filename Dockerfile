@@ -28,8 +28,8 @@ RUN corepack enable
 # Set working directory
 WORKDIR /app
 
-# Copy package files
-COPY package.json yarn.lock .yarnrc.yml ./
+# Copy package files and yarn binary
+COPY package.json yarn.lock .yarnrc.yml .yarn ./
 
 # Install only production dependencies
 RUN yarn install --frozen-lockfile --production
