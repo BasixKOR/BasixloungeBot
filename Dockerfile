@@ -8,13 +8,18 @@ RUN corepack enable
 WORKDIR /app
 
 # Copy package files
-COPY package.json yarn.lock .yarnrc.yml .yarn/releases/* ./
+COPY package.json yarn.lock .yarnrc.yml ./
+
+# Create .yarn directory and copy yarn binary
+RUN mkdir -p .yarn/releases
+COPY .yarn/releases/yarn-4.10.3.cjs .yarn/releases/
 
 # Install dependencies
-RUN yarn install --frozen-lockfile --production=false
+RUN yarn install --immutable
 
 # Copy source code
-COPY . .
+COPY src/ ./src/
+COPY tsconfig.json ./
 
 # Build the application
 RUN yarn build
@@ -28,11 +33,15 @@ RUN corepack enable
 # Set working directory
 WORKDIR /app
 
-# Copy package files and yarn binary
-COPY package.json yarn.lock .yarnrc.yml .yarn ./
+# Copy package files
+COPY package.json yarn.lock .yarnrc.yml ./
+
+# Create .yarn directory and copy yarn binary
+RUN mkdir -p .yarn/releases
+COPY .yarn/releases/yarn-4.10.3.cjs .yarn/releases/
 
 # Install only production dependencies
-RUN yarn install --frozen-lockfile --production
+RUN yarn install --immutable && yarn workspaces focus --all --production
 
 # Copy built application from base stage
 COPY --from=base /app/dist ./dist
